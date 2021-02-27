@@ -1,6 +1,3 @@
 this is the recipe for cookies
-<<<<<<< HEAD
-
 Author is neetha
-=======
-Auth
+Auth 2 is oem
