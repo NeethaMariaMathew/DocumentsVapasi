@@ -3,5 +3,4 @@ this is the recipe for cookies
 
 Author is neetha
 =======
-Author Pair
->>>>>>> Added author
+Auth
