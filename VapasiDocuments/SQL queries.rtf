@@ -1,0 +1,97 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1671\cocoasubrtf600
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 CREATE TABLE pizza (\
+  p_id INTEGER PRIMARY KEY AUTOINCREMENT,\
+  name VARCHAR (100),\
+  price INTEGER\
+);\
+CREATE TABLE customer (\
+  c_id INTEGER PRIMARY KEY AUTOINCREMENT,\
+  name VARCHAR (100),\
+  address TEXT,\
+  deleted_on TIMESTAMP\
+);\
+CREATE TABLE order_master (\
+  o_id INTEGER PRIMARY KEY AUTOINCREMENT,\
+  c_id BIGINT UNSIGNED,\
+  FOREIGN KEY (c_id) REFERENCES customer(c_id) ON DELETE CASCADE\
+);\
+CREATE TABLE order_detail (\
+  d_id INTEGER PRIMARY KEY AUTOINCREMENT,\
+  o_id BIGINT UNSIGNED,\
+  p_id BIGINT UNSIGNED,\
+  price INTEGER,\
+  FOREIGN KEY (o_id) REFERENCES order_master(o_id) ON DELETE CASCADE,\
+  FOREIGN KEY (p_id) REFERENCES pizza(p_id)\
+);\
+\
+\
+\
+INSERT INTO pizza (name, price) VALUES\
+  ('Veg Cheeese Pizza', 100),\
+  ('Chicken Pizza', 200),\
+  ('Cheese burst Pizza', 300),\
+  ('Margarita Pizza', 200);\
+INSERT INTO customer (name, address) VALUES\
+  ('Iron man', '59th Street, Broadway'),\
+  ('Dr Strange', '177A Bleeker Street'),\
+  ('Spider Man', '175 5th Avenue'),\
+  ('Mr Holmes', '221B Baker street');\
+INSERT INTO order_master (c_id) VALUES (1),(2),(3);    \
+INSERT INTO order_detail (o_id, p_id, price) VALUES\
+  (1, 1, 100),\
+  (1, 2, 200),\
+  (1, 3, 300),\
+  (2, 1, 100),\
+  (3, 1, 100), \
+  (3, 2, 200);\
+\
+\
+select * from customer;\
+  select * from customer where id = 1;\
+  select * FROM customer ORDER BY name;\
+  select count(*) from order_master;\
+\
+update order_detail set p_id = 3 where d_id = 6;\
+\
+\
+Write a query to find how many orders are placed\
+select distinct pizza orders\
+\
+Q2: Find customers who have made some orders\
+Q3: Find which customer ordered which pizza\
+Q4: Find customers who have NOT made any orders\
+\
+\
+Find customers who have made some orders\
+SELECT c_id, name FROM customer WHERE c_id IN \
+(SELECT c_id FROM order_master)\
+SELECT customer.c_id, customer.name \
+FROM customer \
+INNER JOIN order_master\
+ON customer.c_id = order_master.c_id\
+\
+\
+\
+Find which customer ordered which pizza             \
+SELECT customer.c_id, customer.name, pizza.name\
+FROM customer \
+INNER JOIN order_master ON customer.c_id = order_master.c_id\
+INNER JOIN order_detail ON order_master.o_id = order_detail.o_id\
+INNER JOIN pizza ON order_detail.p_id = pizza.p_id;\
+\
+\
+\
+Find customers who have NOT made any orders\
+SELECT c_id, name FROM customer WHERE c_id NOT IN \
+(SELECT c_id FROM order_master);\
+SELECT   * \
+FROM customer AS t1\
+LEFT   JOIN order_master AS t2 \
+ON t1.c_id = t2.c_id\
+WHERE t2.o_id IS NULL;}

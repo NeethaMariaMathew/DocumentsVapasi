@@ -1,0 +1,27 @@
+Interface /class Deot
+
+Class Collage
+    EngDept engDept
+    ArtsDept artsDept
+    
+    List<Dept>
+    public void addDept(dept){}
+
+Class EngDept imp/ext Dept
+    Library Library
+    Lab lab
+
+Class ArtsDept   imp/ext Dept
+    Library lib
+    MusicRoom music
+
+class Library       
+    List<Book> books
+    List<Furniture> fur
+    List<Staff> staff
+    public int getBooksCount(){}
+
+
+class Book
+
+
